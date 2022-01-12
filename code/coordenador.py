@@ -1,5 +1,4 @@
 import psycopg2 as db
-import pandas as pd
 import os
 
 conn = db.connect(host='127.0.0.1', database='student_system',
@@ -16,11 +15,11 @@ def coordenador_atribuicao():
     if opcao_home_coordenador == 1:
         def criar_coordenador():
             os.system("cls")
-            query_1 = "insert into coordenador (ID, NOME, SENHA) values (%s,%s,%s)"
+            query_1 = "insert into tbl_coordenador (NOME, SENHA, SEXO) values (%s,%s,%s)"
             nome_sobrenome = input("Qual é o nome e sobrenome do(a) coordenador(a)? ")
             senha = int(input("Qual é a senha do(a) coordenador(a)? "))
-            id = int(input("Qual é o ID do(a) coordenador(a)? "))
-            dados = (id, nome_sobrenome, senha)
+            sexo = input("Qual é o sexo do(a) coordenador(a)? ")
+            dados = (nome_sobrenome, senha, sexo)
             cursor.execute(query_1, dados)
             conn.commit()
             print("Coordenador(a) cadastrado(a) com sucesso!")
@@ -51,18 +50,18 @@ def coordenador_atribuicao():
                         fim_coordenador()
                     else: 
                         continuar_1()
-            query_2 = "select all nome from coordenador"
+            query_2 = "select all nome from tbl_coordenador"
             cursor.execute(query_2)
             resultado = cursor.fetchall()
             print("Os coordenadores na base de dados são: ")
             for line in resultado:
                 print(line[0])
             nome_editar = input("Escreva o nome do(a) coordenador(a) que você deseja editar: ")
-            opcao_edicao = int(input("O que você gostaria de editar? \n 1 - Nome \n 2 - Senha "))
+            opcao_edicao = int(input("O que você gostaria de editar? \n 1 - Nome \n 2 - Senha \n 3 - Sexo "))
             if opcao_edicao == 1:
                 os.system("cls")
                 editar = input("Você selecionou {}. Escreva o novo nome do(a) coordenador(a): ".format(nome_editar))
-                query_3 = "update coordenador set nome = %s where nome = %s"
+                query_3 = "update tbl_coordenador set nome = %s where nome = %s"
                 cursor.execute(query_3, (editar, nome_editar))
                 conn.commit()
                 os.system("cls")
@@ -71,11 +70,20 @@ def coordenador_atribuicao():
             elif opcao_edicao == 2:
                 os.system("cls")
                 nova_senha = input("Escreva a nova senha do(a) coordenador(a) {}: ".format(nome_editar))
-                query_4 = "update coordenador set senha = %s where nome = %s"
+                query_4 = "update tbl_coordenador set senha = %s where nome = %s"
                 cursor.execute(query_4, (nova_senha, nome_editar))
                 conn.commit()
                 os.system("cls")
                 print("Senha atualizada com sucesso!")
+                continuar_1()
+            elif opcao_edicao == 3:
+                os.system("cls")
+                nova_senha = input("Escreva o novo sexo do(a) coordenador(a) {}: ".format(nome_editar))
+                query_4 = "update tbl_coordenador set sexo = %s where nome = %s"
+                cursor.execute(query_4, (nova_senha, nome_editar))
+                conn.commit()
+                os.system("cls")
+                print("Sexo atualizado com sucesso!")
                 continuar_1()
             else:
                 print("Não há essa opção!")
@@ -94,7 +102,7 @@ def coordenador_atribuicao():
                 else: 
                     continuar_2()
 
-            query_5 = "select all nome from coordenador"
+            query_5 = "select all nome from tbl_coordenador"
             cursor.execute(query_5)
             resultado = cursor.fetchall()
             print("Os coordenadores na base de dados são: ")
@@ -105,7 +113,7 @@ def coordenador_atribuicao():
             print("Você tem certeza que quer excluir o(a) coordenador(a) {}? Os dados serão excluídos permanentemente!".format(nome_excluir))
             validar = input("S - Sim / N - Não: ")
             if validar == "S" or validar == 's':
-                query_6 = "delete from coordenador where nome = %s"
+                query_6 = "delete from tbl_coordenador where nome = %s"
                 cursor.execute(query_6, (nome_excluir,))
                 conn.commit()
                 os.system("cls")
@@ -128,12 +136,11 @@ def professor_atribuicao():
     if opcao_home_professor == 1:
         def criar_professor():
             os.system("cls")
-            query_1_1 = "insert into professor (ID, NOME, SENHA, TURMA) values (%s,%s,%s,%s)"
+            query_1_1 = "insert into tbl_professor (NOME, SENHA, SEXO) values (%s,%s,%s)"
             prof_nome_sobrenome = input("Qual é o nome e sobrenome do(a) professor(a)? ")
             prof_senha = int(input("Qual é a senha do(a) professor(a)? "))
-            prof_id = int(input("Qual é o ID do(a) professor(a)? "))
-            prof_turma = input("Qual é a turma do professor(a)? ") 
-            dados_1 = (prof_id, prof_nome_sobrenome, prof_senha, prof_turma)
+            sexo = input("Qual é o sexo do(a) professor(a)? ")
+            dados_1 = (prof_nome_sobrenome, prof_senha,sexo)
             cursor.execute(query_1_1, dados_1)
             conn.commit()
             print("Professor(a) cadastrado(a) com sucesso!")
@@ -163,18 +170,18 @@ def professor_atribuicao():
                         fim_coordenador()
                     else: 
                         continuar_professor1()
-            query_2_2 = "select all nome from professor"
+            query_2_2 = "select all nome from tbl_professor"
             cursor.execute(query_2_2)
             resultado_professor = cursor.fetchall()
             print("Os coordenadores na base de dados são: ")
             for line_professor in resultado_professor:
                 print(line_professor[0])
             nome_editar_professor = input("Escreva o nome do(a) professor(a) que você deseja editar: ")
-            opcao_edicao_professor = int(input("O que você gostaria de editar?\n1 - Nome\n2 - Senha\n3 - Turma "))
+            opcao_edicao_professor = int(input("O que você gostaria de editar?\n1 - Nome\n2 - Senha\n3 - Sexo "))
             if opcao_edicao_professor == 1:
                 os.system("cls")
                 editar = input("Você selecionou {}. Escreva o novo nome do(a) professor(a): ".format(nome_editar_professor))
-                query_3_3 = "update professor set nome = %s where nome = %s"
+                query_3_3 = "update tbl_professor set nome = %s where nome = %s"
                 cursor.execute(query_3_3, (editar, nome_editar_professor))
                 conn.commit()
                 os.system("cls")
@@ -183,7 +190,7 @@ def professor_atribuicao():
             elif opcao_edicao_professor == 2:
                 os.system("cls")
                 nova_senha_professor = input("Escreva a nova senha do(a) professor(a) {}: ".format(nome_editar_professor))
-                query_4_4 = "update professor set senha = %s where nome = %s"
+                query_4_4 = "update tbl_professor set senha = %s where nome = %s"
                 cursor.execute(query_4_4, (nova_senha_professor, nome_editar_professor))
                 conn.commit()
                 os.system("cls")
@@ -191,12 +198,12 @@ def professor_atribuicao():
                 continuar_professor1()
             elif opcao_edicao_professor == 3:
                 os.system("cls")
-                nova_turma_professor = input("Escreva a nova turma do(a) professor(a) {}: ".format(nome_editar_professor))
-                query_5_5 = "update professor set turma = %s where nome = %s"
-                cursor.execute(query_5_5, (nova_turma_professor, nome_editar_professor))
+                novo_sexo_professor = input("Escreva o novo sexo do(a) professor(a) {}: ".format(nome_editar_professor))
+                query_5_5 = "update tbl_professor set sexo = %s where nome = %s"
+                cursor.execute(query_5_5, (novo_sexo_professor, nome_editar_professor))
                 conn.commit()
                 os.system("cls")
-                print("Turma atualizada com sucesso!")
+                print("Sexo atualizado com sucesso!")
                 continuar_professor1()
             else:
                 print("Não há essa opção!")
@@ -215,7 +222,7 @@ def professor_atribuicao():
                 else: 
                     continuar_professor2()
 
-            query_5_5 = "select all nome from professor"
+            query_5_5 = "select all nome from tbl_professor"
             cursor.execute(query_5_5)
             resultado_1 = cursor.fetchall()
             print("Os professores na base de dados são: ")
@@ -226,7 +233,7 @@ def professor_atribuicao():
             print("Você tem certeza que quer excluir o(a) professor(a) {}? Os dados serão excluídos permanentemente!".format(nome_excluir_professor))
             validar_1 = input("S - Sim / N - Não: ")
             if validar_1 == "S" or validar_1 == 's':
-                query_6_6 = "delete from professor where nome = %s"
+                query_6_6 = "delete from tbl_professor where nome = %s"
                 cursor.execute(query_6_6, (nome_excluir_professor,))
                 conn.commit()
                 os.system("cls")

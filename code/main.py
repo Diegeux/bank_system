@@ -1,5 +1,4 @@
 import autenticacao
-import professor
 import os
 
 os.system("cls")
@@ -8,7 +7,7 @@ if entrada == 1:
     os.system("cls")
     autenticacao.autenticacao_coordenador()
 elif entrada ==2:
-    print("okay!")
+    autenticacao.autenticacao_professor()
 else:
     print("Não há essa opção! Inicie o programa novamente!")
 
