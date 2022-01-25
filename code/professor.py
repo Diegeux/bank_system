@@ -136,9 +136,9 @@ def professor_atribuicao(id):
             id_professor = id
             cursor.execute(query_5_5,(id_professor,))
             resultado_1 = cursor.fetchall()
-            print("As notas e alunos na base de dados são: ")
+            print("Os alunos na base de dados são: ")
             for line_1_1 in resultado_1:
-                print(line_1_1[0])
+                print(line_1_1[2])
             nome_excluir_professor = input("Escreva o nome do(a) aluno(a) para excluir: ")
             os.system("cls")
             print("Você tem certeza que quer excluir o(a) aluno(a) {} e suas notas? Os dados serão excluídos permanentemente!".format(nome_excluir_professor))
