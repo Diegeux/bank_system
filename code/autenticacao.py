@@ -74,10 +74,7 @@ def autenticacao_professor():
                     x_professor = rows_professor[0]
                     y_professor = rows1_professor[0]
                     id_professor = rows2_professor[0]
-                    print(x_professor)
-                    print(y_professor)
-                    print(id_professor)
-                
+                                   
 
         if x_professor == user_professor and y_professor == code_professor:
             os.system("cls")
